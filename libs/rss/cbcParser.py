@@ -3,7 +3,7 @@ from .rssParser import RSSParser
 class CBCParser(RSSParser):
     def getItems(self):
         items = []
-        for entry in self.data.entries:
+        for entry in self.data.entries: 
             id = entry.id
             title = entry.title
             link = entry.link
@@ -20,4 +20,3 @@ class CBCParser(RSSParser):
             }
             items.append(item)   
         return items
-        

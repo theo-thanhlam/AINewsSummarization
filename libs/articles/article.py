@@ -6,8 +6,8 @@ from configs.request_headers import headers
 
 class Article(ABC):
     def __init__(self,url):
-        article = requests.get( url,headers=headers)
-        self.soup = BeautifulSoup(article.content,"html.parser")
+        response = requests.get( url,headers=headers)
+        self.soup = BeautifulSoup(response.content,"html.parser")
     
     @abstractmethod
     def getStory(self):
