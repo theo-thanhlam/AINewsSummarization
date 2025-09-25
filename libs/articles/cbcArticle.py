@@ -8,7 +8,7 @@ class CBCArticle(Article):
     def getStory(self) -> str:
         storyDiv = self.soup.find("div",class_="story")
         tags = storyDiv.select("p, h1, h2, h3, h4, h5, h6")
-        return " ".join(tag.get_text(strip=True) for tag in tags)
+        return ' '.join(tag.get_text(strip=True) for tag in tags)
     
     def getAuthor(self)->ArticleAuthor:
         authorSpan = self.soup.find("span", class_="authorText")
@@ -28,8 +28,9 @@ class CBCArticle(Article):
         relatedStories = []
         relatedLinksa = self.soup.find_all("a",class_="relatedLink")
         for a_tag in relatedLinksa:
+            url = a_tag['href'] if "cbc.ca" in a_tag['href'] else self.cbcBaseUrl+a_tag['href']
             relatedStory = {
-                "url": self.cbcBaseUrl+a_tag['href'],
+                "url": url,
                 "title":a_tag.get_text()
             }
             relatedStories.append(relatedStory)
