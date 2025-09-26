@@ -3,6 +3,7 @@ from configs import headers
 from typing import List
 from .rss_item import RSSItem
 import requests
+from datetime import datetime
 
 class RSSParser:
     def __init__(self, rssUrl):
@@ -18,7 +19,7 @@ class RSSParser:
             id = entry.id
             title = entry.title
             link = entry.link
-            published = entry.published
+            published = datetime.strptime(entry.published,"%a, %d %b %Y %H:%M:%S %Z")
             
             item = {
                 "id":id,
