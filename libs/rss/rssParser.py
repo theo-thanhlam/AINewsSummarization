@@ -3,7 +3,7 @@ from configs import headers
 from typing import List
 from .rss_item import RSSItem
 import requests
-from datetime import datetime
+from datetime import datetime,timedelta
 
 class RSSParser:
     def __init__(self, rssUrl):
@@ -16,10 +16,16 @@ class RSSParser:
     
     def parseItems(self):
         for entry in self.data.entries: 
+            published = datetime.strptime(entry.published,"%a, %d %b %Y %H:%M:%S %Z")
+            today = datetime.now().replace(hour=0, minute=0,second=0,microsecond=0)
+            tomorrow = today + timedelta(days=1)
+            if not (today <= published < tomorrow):
+                continue
+            
             id = entry.id
             title = entry.title
             link = entry.link
-            published = datetime.strptime(entry.published,"%a, %d %b %Y %H:%M:%S %Z")
+            
             
             item = {
                 "id":id,

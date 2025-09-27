@@ -3,27 +3,23 @@ from libs.rss.cbcParser import CBCParser
 import json
 import time
 from datetime import datetime
-from libs.llm.agents import SummarizeAgent
+from agents import SummarizeAgent
 import feedparser
 from configs import headers
+from concurrent.futures import ThreadPoolExecutor
+from libs.database import getSession
+from models import Author
 
 
 
-def cbcNewsFetch():
-    cbcRSSTopStoriesUrl ="https://www.cbc.ca/webfeed/rss/rss-topstories"
-    parser = CBCParser(cbcRSSTopStoriesUrl)
+def parseRssFeed(url):
+    parser = CBCParser(url)
     items = parser.getItems()
-    summarizeAgent = SummarizeAgent()
+    return items
     
-    
-    articles = []
-    for item in items:
-        try:
-            article = CBCArticle(item['url'])
-            summarizeAgent.summerize(item['title'], article.getStory())
-            ai_response = summarizeAgent.getSummerization()
-           
-            news_data = {
+def parseItem(item):
+    article= CBCArticle(item['url'])
+    return{
                 "id":item['id'],
                 "published": item['published'],
                 "url":item['url'],
@@ -32,25 +28,44 @@ def cbcNewsFetch():
                 "author":article.getAuthor(),
                 "story":article.getStory(),
                 "relatedStories":article.getRelatedStories(),
-                "summary":ai_response.summary,
-                "key_takeaways":ai_response.key_takeaways
-            } 
-            articles.append(news_data)
-        except:
-            continue
-            
-    # return json.dumps(articles, ensure_ascii=False, indent=4)
-    return articles
+    } 
+
+def parseArticleData(item):
+    return {
+        "article_id":item['id'],
+        "published": item['published'],
+        "url":item['url'],
+        "title":item['title'],
+        "story":item['story']
+        
+    }
+def parseAuthor(item):
+    return item['author']
+
+def summerize(item, summerizeAgent=None):
+    if not summerizeAgent: 
+        summerizeAgent = SummarizeAgent()
+    
+    title, story = item['title'],item['story']
+    summerizeAgent.summerize(title, story)
+    ai_response = summerizeAgent.getSummerization()
+    return ai_response
+
+def parseAiSummary(ai_response):
+    return ai_response.summary
+
+def parseAiKeyTakeaways(ai_response):
+    return ai_response.key_takeaways
+
+
 
 
 
 def main():
-    pass
-    
-    
-    
-    
-    
+    with getSession() as session:
+   
+        new_author = Author(name="Test", description="descrioption",url="https://")
+        session.add(new_author)
     
     
 
