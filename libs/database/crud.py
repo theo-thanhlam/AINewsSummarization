@@ -10,6 +10,19 @@ class CRUD(Generic[T]):
     # def __init__(self, model:Type[T]):
     #     self.model = model
     
+    def getOneBy(self, model:BaseModel,**filters):
+        with getSession() as db:
+            if filters:
+                query = db.query(model).filter_by(**filters)
+                return query.first()
+    
+    def getMultipleBy(self, model:BaseModel,**filters):
+        with getSession() as db:
+            if filters:
+                query = db.query(model).filter_by(**filters)
+                return query.all()
+            
+    
     def getById(self,model:BaseModel,  id:int) -> Optional[T]:
         with getSession() as db:
             return db.query(model).filter_by(id=id).first()
