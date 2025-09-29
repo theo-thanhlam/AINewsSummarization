@@ -12,10 +12,10 @@ Session = sessionmaker(bind=_engine, expire_on_commit=False)
 @contextmanager
 def getSession():
     session = Session()
-    session.commit()
+    
     try:
         yield session
-        session.commit()
+        
     except:
         session.rollback()
         raise
