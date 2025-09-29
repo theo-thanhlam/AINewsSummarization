@@ -1,5 +1,5 @@
 
-from .base import Base
+from .base import Base, BaseModel
 from .author import Author
 from .broadcaster import Broadcaster
 from .article import Article
