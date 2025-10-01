@@ -4,7 +4,7 @@ from typing import List
 from .rss_item import RSSItem
 import requests
 from datetime import datetime,timedelta
-
+from dateutil import parser
 class RSSParser:
     def __init__(self, rssUrl):
 
@@ -16,10 +16,14 @@ class RSSParser:
     
     def parseItems(self):
         for entry in self.data.entries: 
-            published = datetime.strptime(entry.published,"%a, %d %b %Y %H:%M:%S %Z")
-            today = datetime.now().replace(hour=0, minute=0,second=0,microsecond=0)
+            published = parser.parse(entry.published)  # parse the string with dateutil
+            today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
             tomorrow = today + timedelta(days=1)
-            if not (today <= published < tomorrow):
+
+            # Convert published to naive datetime in local timezone if needed
+            published_naive = published.replace(tzinfo=None) if published.tzinfo else published
+
+            if not (today <= published_naive < tomorrow):
                 continue
             
             id = entry.id
