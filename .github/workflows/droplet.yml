@@ -32,9 +32,9 @@ jobs:
                     script: |
                         docker stop ${{env.CONTAINER_NAME}} || true
                         docker rm -f ${{ env.CONTAINER_NAME }} || true
-                        cd AINewsSummmarization
+                        cd AINewsSummarization
                         git fetch origin
                         git checkout main
                         git pull 
-                        docker build -t cbc || true
-                        docker run -d --name cbc cbc
+                        docker build -t cbcTopStories . || true
+                        docker run -d --name ${{ env.CONTAINER_NAME }} cbcTopStories
