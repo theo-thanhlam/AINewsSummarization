@@ -8,6 +8,7 @@ from libs.database.crud import CRUD
 
 def parseRssFeed(url):
     parser = CBCParser(url)
+    print("parser:", parser)
     items = parser.getItems()
     return items
     
