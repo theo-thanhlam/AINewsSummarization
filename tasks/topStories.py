@@ -37,10 +37,10 @@ def fetchCBCTopStories():
     cbcTopNews = 'https://www.cbc.ca/webfeed/rss/rss-topstories'
 
     items = parseRssFeed(cbcTopNews)
+    print(items)
     db = CRUD()
     summerizeAgent = SummarizeAgent()
     for item in items:
-        print(item)
         try:
             data = parseItem(item)
             
@@ -59,7 +59,6 @@ def fetchCBCTopStories():
             
             existing_article = db.getOneBy(Article, article_id=articleDoc['id'])
             if existing_article:
-                print("ITEM EXISTED")
                 continue
             
             
