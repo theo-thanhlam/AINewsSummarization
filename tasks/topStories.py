@@ -58,6 +58,7 @@ def fetchCBCTopStories():
             
             existing_article = db.getOneBy(Article, article_id=articleDoc['id'])
             if existing_article:
+                print("ITEM EXISTED")
                 continue
             
             
