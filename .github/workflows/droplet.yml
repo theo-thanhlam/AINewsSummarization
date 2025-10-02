@@ -17,16 +17,18 @@ jobs:
         env:
             HOST: ${{secrets.DROPLET_HOST}}
             PASSWORD: ${{secrets.DROPLET_PASSWORD}}
+            USERNAME: ${{secrets.DROPLET_USERNAME}}
+            PORT: ${{secrets.DROPLET_PORT}}
         steps:
             -   name: Checkout
                 uses: actions/checkout@v4
             -   name: Test Droplet connection
                 uses: appleboy/ssh-action@master
                 with:
-                    host: ${{secrets.DROPLET_HOST}}
-                    username: ${{secrets.DROPLET_USERNAME}}
-                    password: ${{secrets.DROPLET_PASSWORD}}
-                    port: ${{secrets.DROPLET_PORT}}
+                    host: ${{env.HOST}}
+                    username: ${{env.USERNAME}}
+                    password: ${{env.PASSWORD}}
+                    port: ${{env.PORT}}
                     script: |
                         docker stop ${{env.CONTAINER_NAME}} || true
                         docker rm -f ${{ env.CONTAINER_NAME }} || true
