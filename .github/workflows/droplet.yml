@@ -36,5 +36,5 @@ jobs:
                         git fetch origin
                         git checkout main
                         git pull 
-                        docker build -t cbcTopStories . || true
-                        docker run -d --name ${{ env.CONTAINER_NAME }} cbcTopStories
+                        docker build -t cbctopstories . || true
+                        docker run -d --name ${{ env.CONTAINER_NAME }} cbctopstories
