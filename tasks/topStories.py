@@ -8,7 +8,6 @@ from libs.database.crud import CRUD
 
 def parseRssFeed(url):
     parser = CBCParser(url)
-    print("parser:", parser)
     items = parser.getItems()
     return items
     
@@ -38,7 +37,6 @@ def fetchCBCTopStories():
     cbcTopNews = 'https://www.cbc.ca/webfeed/rss/rss-topstories'
 
     items = parseRssFeed(cbcTopNews)
-    print(items)
     db = CRUD()
     summerizeAgent = SummarizeAgent()
     for item in items:
