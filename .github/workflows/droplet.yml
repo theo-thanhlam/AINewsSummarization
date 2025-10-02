@@ -1,0 +1,38 @@
+name: Deploy on DigitalOceans Droplets
+on:
+    push:
+        branches: [main]
+
+env:
+    CONTAINER_NAME: AINewsSummmarization
+
+
+jobs:
+    
+    
+    deploy:
+        name: Deploy
+        runs-on: ubuntu-latest
+        environment: production
+        env:
+            HOST: ${{secrets.DROPLET_HOST}}
+            PASSWORD: ${{secrets.DROPLET_PASSWORD}}
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+            -   name: Test Droplet connection
+                uses: appleboy/ssh-action@master
+                with:
+                    host: ${{secrets.DROPLET_HOST}}
+                    username: ${{secrets.DROPLET_USERNAME}}
+                    password: ${{secrets.DROPLET_PASSWORD}}
+                    port: ${{secrets.DROPLET_PORT}}
+                    script: |
+                        docker stop ${{env.CONTAINER_NAME}} || true
+                        docker rm -f ${{ env.CONTAINER_NAME }} || true
+                        cd AINewsSummmarization
+                        git fetch origin
+                        git checkout main
+                        git pull 
+                        docker build -t cbc || true
+                        docker run -d --name cbc cbc
