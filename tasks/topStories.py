@@ -40,6 +40,7 @@ def fetchCBCTopStories():
     db = CRUD()
     summerizeAgent = SummarizeAgent()
     for item in items:
+        print(item)
         try:
             data = parseItem(item)
             
