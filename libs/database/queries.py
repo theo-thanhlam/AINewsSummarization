@@ -13,7 +13,7 @@ class SingleNewsSummary(BaseModel):
     article_id:int
     article_title:str
     article_url:str
-    article_published_parsed:datetime
+    # article_published_parsed:datetime
     article_published:str
     author_id:int
     author_name:str
@@ -52,22 +52,32 @@ def getNewsSnapshot(limit=5):
       )
         results = query.all()
         data = [
-            SingleNewsSummary(
-                article_id=row.article_id,
-                article_title=row.article_title,
-                article_url=row.article_url,
-               article_published_parsed=row.article_published.astimezone(ZoneInfo("America/New_York")),
-                article_published=row.article_published.astimezone(ZoneInfo("America/New_York")).isoformat(),
-                author_id = row.author_id,
-                author_name=row.author_name,
-                author_url = row.author_url,
-                summary=row.summary,
-                takeaways = row.takeaways
-                )
-           
+            # SingleNewsSummary(
+            #     article_id=row.article_id,
+            #     article_title=row.article_title,
+            #     article_url=row.article_url,
+            # #    article_published_parsed=row.article_published.astimezone(ZoneInfo("America/New_York")),
+            #     article_published=row.article_published.astimezone(ZoneInfo("America/New_York")).isoformat(),
+            #     author_id = row.author_id,
+            #     author_name=row.author_name,
+            #     author_url = row.author_url,
+            #     summary=row.summary,
+            #     takeaways = row.takeaways
+            #     ).model_dump_json(indent=4,)
+           {
+        "article_id": row.article_id,
+        "article_title": row.article_title,
+        "article_url": row.article_url,
+        "article_published": row.article_published.astimezone(ZoneInfo("America/New_York")).isoformat() if row.article_published else None,
+        "author_id": row.author_id,
+        "author_name": row.author_name,
+        "author_url": row.author_url,
+        "summary": row.summary,
+        "takeaways": row.takeaways  # already a list from array_agg
+    }
             for row in results
         ]
         return {
-            "date":datetime.now(ZoneInfo("America/New_York")).isoformat(),
+            "date":datetime.now(ZoneInfo("America/New_York")).date().isoformat(),
             "data":data
         }
