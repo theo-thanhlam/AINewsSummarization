@@ -1,0 +1,237 @@
+
+ <!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>News Summary Template</title>
+<style>
+  /* Client-specific styles */
+  #outlook a {
+    padding: 0;
+  } /* Force Outlook to provide a "view in browser" message */
+  .ReadMsgBody {
+    width: 100%;
+  }
+  .ExternalClass {
+    width: 100%;
+  } /* Force Hotmail to display emails at full width */
+  .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+    line-height: 100%;
+  } /* Force Hotmail to display normal line spacing */
+  body, table, td, a {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  } /* Prevent WebKit and Windows mobile from changing text size */
+  table, td {
+    mso-table-lspace: 0pt;
+    mso-table-rspace: 0pt;
+  } /* Remove spacing between tables in Outlook 2007-2010 */
+  img {
+    -ms-interpolation-mode: bicubic;
+  } /* Allow smoother rendering of resized images in Internet Explorer */
+
+  /* Reset styles */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333333;
+  }
+  img {
+    border: 0;
+    height: auto;
+    line-height: 100%;
+    outline: none;
+    text-decoration: none;
+  }
+  table {
+    border-collapse: collapse !important;
+  }
+  a {
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  /* Main container */
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Header */
+  .header {
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .header h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #333333;
+    line-height: 1.2;
+  }
+
+  /* Content section */
+  .content-section {
+    padding: 20px;
+  }
+  .author {
+    font-size: 14px;
+    color: #777777;
+    margin-bottom: 15px;
+    text-align: right;
+  }
+  .story-title {
+    font-size: 22px;
+    color: #333333;
+    margin-top: 0;
+    margin-bottom: 15px;
+    line-height: 1.4;
+  }
+  .story-body {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555555;
+    margin-bottom: 25px;
+  }
+  .story-body p {
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  .key-takeaways {
+    background-color: #fcfcfc;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+    padding: 15px 20px;
+    margin-top: 20px;
+  }
+  .key-takeaways h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #333333;
+    margin-bottom: 10px;
+  }
+  .key-takeaways ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .key-takeaways li {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555555;
+    margin-bottom: 8px;
+  }
+  .key-takeaways li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Footer (optional, but good for email) */
+  .footer {
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #aaaaaa;
+    border-top: 1px solid #eeeeee;
+  }
+  .footer p {
+    margin: 0;
+  }
+  a.author_name{
+      text-decoration:underline;
+      color:#101010;
+      font-style:italic
+      }
+
+  /* Responsive styles */
+  @media screen and (max-width: 620px) {
+    .container {
+      width: 100% !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    .header h1 {
+      font-size: 24px !important;
+    }
+    .content-section {
+      padding: 15px !important;
+    }
+    .story-title {
+      font-size: 20px !important;
+    }
+    .story-body {
+      font-size: 15px !important;
+    }
+    .key-takeaways h3 {
+      font-size: 16px !important;
+    }
+    .key-takeaways li {
+      font-size: 14px !important;
+    }
+  }
+</style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4;">
+
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <table border="0" cellpadding="0" cellspacing="0" class="container" width="600" style="max-width: 600px;">
+          <!-- Header -->
+          <tr>
+            <td class="header">
+              <h1>Today's News Snapshot</h1>
+            </td>
+          </tr>
+
+          <!-- Story Content -->
+          {% for article in data %}
+<tr>
+  <td class="content-section">
+    
+    <h2 class="story-title">{{ article.article_title }}</h2>
+    <p class="author">
+      By <a class="author_name" href="{{ article.author_url }}">{{ article.author_name }}</a>
+    </p>
+    
+    <div class="story-body">
+      <p>{{ article.summary }}</p>
+    </div>
+    
+    <!-- Read More Link -->
+    <div class="read-more">
+      <a href="{{ article.article_url }}" target="_blank">Read More &raquo;</a>
+    </div>
+    
+    <!-- Key Takeaways -->
+    <div class="key-takeaways">
+      <h3>Key Takeaways:</h3>
+      <ul>  
+        {% for takeaway in article.takeaways %}
+          <li>{{ takeaway }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </td>
+</tr>
+{% endfor %}
+
+          
+
+         
+        </table>
+      </td>
+    </tr>
+  </table>
+      
+    </body>
+  </html>
