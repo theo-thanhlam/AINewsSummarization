@@ -48,7 +48,7 @@ def getNewsSnapshot(limit=5):
             Author.name,
             Author.url,
             Summary.summary
-         ).limit(limit)
+         ).order_by(Article.published.desc()).limit(limit)
       )
         results = query.all()
         data = [
