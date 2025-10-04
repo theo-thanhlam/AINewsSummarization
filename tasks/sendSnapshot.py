@@ -1,7 +1,7 @@
 from libs.mailer import Mailer
 from libs.database.queries import getNewsSnapshot
 
-def main():
+def sendSnapshot():
    mailer = Mailer()
    news_snapshot = getNewsSnapshot()
 
@@ -18,4 +18,4 @@ def main():
     
 
 if __name__ == "__main__":
-    main()
+    sendSnapshot()
