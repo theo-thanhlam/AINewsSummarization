@@ -7,4 +7,4 @@ SQLAlchemy
 psycopg2-binary
 dotenv
 python-dateutil
-sendgrid
+jinja2
