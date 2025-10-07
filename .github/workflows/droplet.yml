@@ -5,6 +5,7 @@ on:
 
 env:
     CONTAINER_NAME: AINewsSummmarization
+    IMAGE_NAME: ainewssumarization
 
 
 jobs:
@@ -36,5 +37,5 @@ jobs:
                         git fetch origin
                         git checkout main
                         git pull 
-                        docker build -t cbctopstories . || true
-                        docker run -d --name ${{ env.CONTAINER_NAME }} cbctopstories
+                        docker build -t ${{env.IMAGE_NAME}} . || true
+                        docker run -d --name ${{ env.CONTAINER_NAME }} ${{env.IMAGE_NAME}}
