@@ -84,6 +84,7 @@ def fetchCBCTopStories():
             for takeaway in ai_response.key_takeaways:
                 new_takeaway = Takeaway(summary_id = new_summary.id, takeaway=takeaway)
                 db.create(new_takeaway)
+            print(f"ADDED {len(items)}")
         except :
             print(f"Error fetching {item['url']}")
 
