@@ -1,4 +1,4 @@
-from .utils import fetchRSSToDatabase
+from utils import fetchRSSToDatabase
 
 
 if __name__ == "__main__":
