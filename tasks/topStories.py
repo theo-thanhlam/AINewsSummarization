@@ -37,6 +37,8 @@ def fetchCBCTopStories():
     cbcTopNews = 'https://www.cbc.ca/webfeed/rss/rss-topstories'
 
     items = parseRssFeed(cbcTopNews)
+    if items.bozo:
+        raise Exception("CANNOT FETCH RSS FEED")
     db = CRUD()
     summerizeAgent = SummarizeAgent()
     for item in items:
