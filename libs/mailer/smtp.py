@@ -1,42 +1,28 @@
+import mailtrap as mt
+from dotenv import load_dotenv
 import os
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from jinja2 import Environment, FileSystemLoader
-from pathlib import Path
+load_dotenv()
 
-BASE_DIR = Path(__file__).parent
 class Mailer:
-    
-
-    
+    _MAILTRAP_API_KEY=os.getenv("MAILTRAP_API_KEY")
     def __init__(self):
-        self.SMTP_USERNAME = os.getenv("SMTP_USERNAME")
-        self.SMTP_APP_PASSWORD = os.getenv("SMTP_APP_PASSWORD")
-        self.SMTP_SERVER = "smtp.gmail.com"
-        self.SMTP_PORT = 587
+        self.client = mt.MailtrapClient(token=self._MAILTRAP_API_KEY)
         
-        env = Environment(loader=FileSystemLoader(BASE_DIR / "templates"))
-        self.template= env.get_template("daily_snapshot.html")
-        
-    def send_message(self,to_email:str, data,subject:str=None) :
-        msg = MIMEMultipart()
-        html = self.template.render(data=data)
-        
-        msg["From"] = self.SMTP_USERNAME
-        msg["To"] = to_email
-        msg['Subject'] = subject
-        
-        msg.attach(MIMEText(html,"html"))
-        
-        with smtplib.SMTP(self.SMTP_SERVER, self.SMTP_PORT) as server:
-            server.starttls()
-            server.login(self.SMTP_USERNAME, self.SMTP_APP_PASSWORD)
-            server.send_message(msg)
-
+    def createMail(self, sender:str, to:str, data:any):
+        mail = mt.MailFromTemplate(
+            sender = mt.Address(email=sender, name="Summerize Club"),
+            to = [mt.Address(email=to)],
+            template_uuid="38c0dffa-8bb3-49b8-9a7c-d958fb5998e5",
+            template_variables=data
+        )
+        return mail
         
         
+    def send(self,  mail):
+        try:
+            self.client.send(mail)
+        except Exception as e:
+            print("SENDING EMAIL ERROR")
+            raise e
+            
         
-    
-    
-    

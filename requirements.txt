@@ -8,3 +8,4 @@ psycopg2-binary
 dotenv
 python-dateutil
 jinja2
+mailtrap

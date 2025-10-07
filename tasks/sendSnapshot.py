@@ -6,7 +6,8 @@ def sendSnapshot():
    news_snapshot = getNewsSnapshot()
 
    
-   mailer.send_message(to_email="theo.thanhlam@gmail.com", data=news_snapshot['data'], subject="Today's News Snapshot")
+   mail = mailer.createMail(sender="summary@summerizenews.club",to="theo.thanhlam@gmail.com", data=news_snapshot)
+   mailer.send(mail)
    
         
         
