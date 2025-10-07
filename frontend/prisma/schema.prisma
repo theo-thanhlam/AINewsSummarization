@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model articles {
+  id             Int           @id @default(autoincrement())
+  created_at     DateTime?     @db.Timestamp(6)
+  article_id     String?
+  title          String?
+  story          String?
+  url            String?
+  published      DateTime?     @db.Timestamptz(6)
+  author_id      Int?
+  broadcaster_id Int?
+  authors        authors?      @relation(fields: [author_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  broadcasters   broadcasters? @relation(fields: [broadcaster_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  summaries      summaries[]
+}
+
+model authors {
+  id          Int        @id @default(autoincrement())
+  created_at  DateTime?  @db.Timestamp(6)
+  name        String?
+  description String?
+  url         String?
+  articles    articles[]
+}
+
+model broadcasters {
+  id          Int        @id @default(autoincrement())
+  created_at  DateTime?  @db.Timestamp(6)
+  name        String?
+  description String?
+  articles    articles[]
+}
+
+model summaries {
+  id         Int         @id @default(autoincrement())
+  created_at DateTime?   @db.Timestamp(6)
+  article_id Int?
+  summary    String?
+  articles   articles?   @relation(fields: [article_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  takeaways  takeaways[]
+}
+
+model takeaways {
+  id         Int        @id @default(autoincrement())
+  summary_id Int?
+  takeaway   String?
+  created_at DateTime?  @db.Timestamp(6)
+  summaries  summaries? @relation(fields: [summary_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model subscribers {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.Timestamp(6)
+  email      String?   @unique
+}

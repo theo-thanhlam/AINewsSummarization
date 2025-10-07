@@ -1,12 +1,15 @@
 "use client"
 import { useSession } from "next-auth/react";
-
 export function Hero(){
   const {data:session} = useSession()
+
+
     const openLogin = () => {
     const modal = document.getElementById("login_modal") as HTMLDialogElement;
     modal?.showModal();
   };
+
+  
     return (
         <div className="min-h-screen flex flex-col bg-base-100 text-base-content">
             <section className="hero min-h-[80vh] bg-base-100">
@@ -20,7 +23,7 @@ export function Hero(){
 
               {!session ?  <button className="btn btn-primary" onClick={openLogin}>
        Subscribe Now
-      </button> : <></>}
+      </button> : <button className="btn btn-primary" ><a href="/profile">Manage your preferences</a></button>}
              
               
             </div>

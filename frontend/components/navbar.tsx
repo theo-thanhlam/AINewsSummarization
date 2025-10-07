@@ -7,13 +7,9 @@ import { useSession } from "next-auth/react";
 
 export  function Navbar(){
      const { data: session, status } = useSession();
+     const isLoading = status === "loading"
 
-  if (status === "loading") {
-    return (
-      <span className="loading loading-spinner loading-md"/>
-
-    )
-  }
+ 
 
  
 
@@ -22,11 +18,15 @@ export  function Navbar(){
         <div className="navbar bg-base-100 shadow-sm">
   <div className="navbar-start">
     
-    <a className="btn btn-ghost text-xl">SummerizeClub</a>
+    <a className="btn btn-ghost text-xl" href="/">SummerizeClub</a>
   </div>
   <div className="navbar-end flex">
     <div className="navbar-end">
-    {session? <Profile session={session} /> : <LoginModal/>}
+    {
+      isLoading? (<span className="loading loading-spinner loading-md"/>) :
+      session? <Profile session={session} /> : <LoginModal/>
+    
+    }
   </div>
     
   </div>

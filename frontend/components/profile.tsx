@@ -25,6 +25,7 @@ export function Profile({session}:props){
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
         <li>Hello {session.user.name}</li>
         <hr/>
+        <li> <a href="/profile">My Profile</a></li>
         <li><button onClick={handleSignout}>Logout</button></li>
       </ul>
     </div>
