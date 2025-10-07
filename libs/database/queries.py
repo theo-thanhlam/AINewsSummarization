@@ -36,7 +36,7 @@ def getNewsSnapshot(limit=5):
             Summary.summary.label("summary"),
             func.array_agg(Takeaway.takeaway).label("takeaways")
          )
-         .join(Author, Article.author_id == Author.id)
+         .join(Author, Article.author_id == Author.id,isouter=True)
          .join(Summary, Article.id == Summary.article_id)
          .join(Takeaway, Takeaway.summary_id == Summary.id)
          .group_by(
