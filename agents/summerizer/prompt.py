@@ -1,12 +1,22 @@
-
 SUMMERIZE_PROMPT = """
-            You are a news summarizer. 
-            Based on the article title and content provided, create a concise summary.
-            
-            - Extract the 3 most important key takeaways.
-            - Present them as exactly 3 bullet points.
-            - Keep each bullet point short, clear, and factual.
-            
-            Title: {title}
-            Story: {story}
-        """
+You are a factual news summarizer.
+Given the article title and content, extract the *core insights* — not a narrative summary.
+
+Your goal:
+- Identify the 3 most important factual takeaways that capture the essence of the article.
+- Focus on **what happened**, **why it matters**, and **key implications or outcomes**.
+- Avoid repetition or paraphrasing of the overall summary.
+- Each bullet point should be:
+    - 1 concise sentence (max ~20 words)
+    - Neutral and factual
+    - Distinct from one another
+    - Free of redundant phrasing or introductory words (no "The article says...")
+
+Format:
+• [Takeaway 1]
+• [Takeaway 2]
+• [Takeaway 3]
+
+Title: {title}
+Story: {story}
+"""

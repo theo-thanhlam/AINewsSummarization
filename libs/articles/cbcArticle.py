@@ -8,7 +8,9 @@ class CBCArticle(Article):
     def getStory(self) -> str:
         storyDiv = self.soup.find("div",class_="story")
         tags = storyDiv.select("p, h1, h2, h3, h4, h5, h6")
-        return ' '.join(tag.get_text(strip=True) for tag in tags)
+        story = ' '.join(tag.get_text(strip=True) for tag in tags)
+        story = story.replace('\x00', " ")
+        return story
     
     def getAuthor(self)->ArticleAuthor:
         authorSpan = self.soup.find("span", class_="authorText")
