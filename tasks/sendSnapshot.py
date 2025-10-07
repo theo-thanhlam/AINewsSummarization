@@ -1,13 +1,15 @@
 from libs.mailer import Mailer
-from libs.database.queries import getNewsSnapshot
+from libs.database.queries import getNewsSnapshot,getSubscribers
 
 def sendSnapshot():
    mailer = Mailer()
    news_snapshot = getNewsSnapshot()
-
+   subscribers = getSubscribers()
    
-   mail = mailer.createMail(sender="summary@summerizenews.club",to="theo.thanhlam@gmail.com", data=news_snapshot)
-   mailer.send(mail)
+   
+   for subscriber in subscribers["data"]:
+      mail = mailer.createMail(sender="summary@summerizenews.club",to=subscriber, data=news_snapshot)
+      mailer.send(mail)
    
         
         

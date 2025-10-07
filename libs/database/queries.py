@@ -81,3 +81,11 @@ def getNewsSnapshot(limit=5):
             "date":datetime.now(ZoneInfo("America/New_York")).date().isoformat(),
             "data":data
         }
+
+def getSubscribers():
+    with getSession() as db:
+        query = db.query(Subscriber.email)
+        data = [subscriber.email for subscriber in query.all()]
+        return {
+            "data":data
+        }

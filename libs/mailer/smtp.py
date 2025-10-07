@@ -8,7 +8,7 @@ class Mailer:
     def __init__(self):
         self.client = mt.MailtrapClient(token=self._MAILTRAP_API_KEY)
         
-    def createMail(self, sender:str, to:str, data:any):
+    def createMail(self, sender:str, to:list, data:any):
         mail = mt.MailFromTemplate(
             sender = mt.Address(email=sender, name="Summerize Club"),
             to = [mt.Address(email=to)],
