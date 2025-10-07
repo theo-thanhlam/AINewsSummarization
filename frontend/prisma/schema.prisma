@@ -58,6 +58,6 @@ model takeaways {
 
 model subscribers {
   id         Int       @id @default(autoincrement())
-  created_at DateTime? @db.Timestamp(6)
-  email      String?   @unique
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  email      String?
 }
