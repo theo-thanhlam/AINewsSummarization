@@ -12,10 +12,14 @@ class Article(BaseModel):
     published = Column(Date)
     author_id = Column(Integer, ForeignKey('authors.id'))
     broadcaster_id = Column(Integer, ForeignKey('broadcasters.id'))
+    topic_id = Column(Integer, ForeignKey('topics.id'))
 
     author = relationship("Author", back_populates="articles")
     broadcaster = relationship("Broadcaster", back_populates="articles")
-    summaries = relationship("Summary", back_populates="article", uselist=True, cascade="all, delete-orphan") 
+    topic = relationship("Topic", back_populates="articles")
+
+    summary = relationship("Summary", back_populates="article", cascade="all, delete-orphan") 
+    takeaways = relationship("Takeaway",back_populates="article", cascade='all, delete-orphan', uselist=True)
 
 
     def __repr__(self):
