@@ -6,11 +6,11 @@ from .base import BaseModel
 class Takeaway(BaseModel):
     __tablename__ = 'takeaways'  # Renamed from ai_summary_takeaways
 
-    summary_id = Column(Integer, ForeignKey('summaries.id')) # Updated foreign key column name and table
+    article_id = Column(Integer, ForeignKey('articles.id')) # Updated foreign key column name and table
 
     takeaway = Column(Text)
 
-    summary = relationship("Summary", back_populates="takeaways") # Updated relationship name
+    article = relationship("Article", back_populates="takeaways") # Updated relationship name
 
     def __repr__(self):
-        return f"<Takeaway(id={self.id}, summary_id={self.summary_id})>"
+        return f"<Takeaway(id={self.id}, article_id={self.summary_id})>"
