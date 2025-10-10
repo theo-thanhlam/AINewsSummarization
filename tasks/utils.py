@@ -33,7 +33,7 @@ def summerize(item, summerizeAgent=None):
     ai_response = summerizeAgent.getSummerization()
     return ai_response
 
-def fetchRSSToDatabase(rss_url:str):
+def fetchRSSToDatabase(rss_url:str, topic_id:int):
 
     items = parseRssFeed(rss_url)
     
@@ -73,7 +73,8 @@ def fetchRSSToDatabase(rss_url:str):
                                 url=articleDoc['url'], 
                                 published=articleDoc['published'],
                                 author_id=author_id,
-                                broadcaster_id = 1
+                                broadcaster_id = 1,
+                                topic_id=topic_id
                                 )
             db.create(new_article)
             
@@ -83,11 +84,13 @@ def fetchRSSToDatabase(rss_url:str):
             db.create(new_summary)
             
             for takeaway in ai_response.key_takeaways:
-                new_takeaway = Takeaway(summary_id = new_summary.id, takeaway=takeaway)
+                new_takeaway = Takeaway(article_id = new_article.id, takeaway=takeaway)
                 db.create(new_takeaway)
             print(f"ADDED:{item['url']}")
             count += 1
         except Exception as e:
+            print(e)
             print(f"Error fetching {item['url']}")
+            break
             
     print(f"ADDED {count} articles")
