@@ -25,11 +25,7 @@ class RSSParser:
             today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
             tomorrow = today + timedelta(days=1)
 
-            # Convert published to naive datetime in local timezone if needed
-            published_naive = published.replace(tzinfo=None) if published.tzinfo else published
-
-            if not (today <= published_naive < tomorrow):
-                continue
+            
             
             id = entry.id
             title = entry.title
