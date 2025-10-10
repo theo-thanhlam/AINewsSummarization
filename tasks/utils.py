@@ -33,7 +33,7 @@ def summerize(item, summerizeAgent=None):
     ai_response = summerizeAgent.getSummerization()
     return ai_response
 
-def fetchRSSToDatabase(rss_url:str, topic_id:int):
+def fetchRSSToDatabase(rss_url:str, topic_id:int,broadcaster_id:int):
 
     items = parseRssFeed(rss_url)
     
@@ -73,7 +73,7 @@ def fetchRSSToDatabase(rss_url:str, topic_id:int):
                                 url=articleDoc['url'], 
                                 published=articleDoc['published'],
                                 author_id=author_id,
-                                broadcaster_id = 1,
+                                broadcaster_id = broadcaster_id,
                                 topic_id=topic_id
                                 )
             db.create(new_article)
